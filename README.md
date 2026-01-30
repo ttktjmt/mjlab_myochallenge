@@ -79,5 +79,4 @@ This issue occurs because `uv` creates virtual environments with symlinks to a c
 - [MyoChallenge 2022](https://sites.google.com/view/myochallenge)
 - [MyoSuite](https://github.com/MyoHub/myosuite)
 - [mjlab](https://github.com/mujocolab/mjlab)
-- [mjlab_upkie](https://github.com/MarcDcls/mjlab_upkie)
-- [mjlab_cartpole](https://github.com/Gregwar/mjlab_cartpole)
+- [MyoChallenge 2022 winning code](https://github.com/amathislab/myochallenge/blob/main/src/main_reorient.py)
