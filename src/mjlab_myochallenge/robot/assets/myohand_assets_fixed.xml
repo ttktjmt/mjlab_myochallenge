@@ -8,7 +8,7 @@
 ====================================================== -->
 
 
-  <compiler inertiafromgeom="auto" angle="radian" balanceinertia="true" boundmass="0.001" boundinertia=".0001" meshdir="../../../../.venv/lib/python3.12/site-packages/myosuite/simhive/myo_sim/" texturedir="../../../../.venv/lib/python3.12/site-packages/myosuite/simhive/myo_sim/"/>
+  <compiler inertiafromgeom="auto" angle="radian" balanceinertia="true" boundmass="0.001" boundinertia=".0001" meshdir="meshes" texturedir="."/>
   <size njmax="1000" nconmax="400" nuser_jnt="1"/>
   <option timestep="0.002"/>
 
