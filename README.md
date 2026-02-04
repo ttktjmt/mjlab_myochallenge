@@ -45,6 +45,20 @@ uv run play Myosuite-Manipulation-DieReorient-Myohand --agent zero
 uv run play Myosuite-Manipulation-DieReorient-Myohand --agent random
 ```
 
+Record visualization:
+
+```bash
+uv run record Myosuite-Manipulation-DieReorient-Myohand \
+  --checkpoint-file [path-to-checkpoint] \
+  --output-file recordings/demo.viser
+```
+
+Compile XML to MJB (optional, for faster loading):
+
+```bash
+uv run compile-mjb
+```
+
 ## Troubleshooting
 
 ### macOS: Native Viewer with `uv` Virtual Environments

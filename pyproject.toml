@@ -18,6 +18,10 @@ authors = [
     {name = "mjlab_myochallenge contributors"}
 ]
 
+[project.scripts]
+record = "mjlab_myochallenge.scripts.record:main"
+compile-mjb = "mjlab_myochallenge.scripts.compile_mjb:main"
+
 [project.entry-points."mjlab.tasks"]
 mjlab_myochallenge = "mjlab_myochallenge.tasks"
 
@@ -31,5 +35,5 @@ myosuite = { git = "https://github.com/MyoHub/myosuite.git", branch = "mjx" }
 
 [tool.uv]
 override-dependencies = [
-    "mujoco>=3.4.0",
+    "mujoco==3.4.0",
 ]
