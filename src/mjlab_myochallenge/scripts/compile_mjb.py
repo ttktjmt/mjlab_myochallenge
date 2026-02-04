@@ -25,18 +25,25 @@ def main():
     print(f"MuJoCo version: {mujoco.__version__}")
     print(f"Compiling {xml_path.name} to {mjb_path.name}...")
 
-    # Load the XML model using absolute path
-    model = mujoco.MjModel.from_xml_path(str(xml_path.absolute()))
+    # Change to assets directory so relative paths work correctly
+    original_dir = os.getcwd()
+    os.chdir(assets_dir)
 
-    # Save as MJB
-    mujoco.mj_saveModel(model, str(mjb_path.absolute()), None)
+    try:
+        # Load the XML model using relative path from assets dir
+        model = mujoco.MjModel.from_xml_path(xml_path.name)
 
-    print(f"✓ Successfully compiled to {mjb_path}")
-    print(f"  Model dimensions:")
-    print(f"    - Bodies: {model.nbody}")
-    print(f"    - Joints: {model.njnt}")
-    print(f"    - Actuators: {model.nu}")
-    print(f"    - Tendons: {model.ntendon}")
+        # Save as MJB
+        mujoco.mj_saveModel(model, mjb_path.name, None)
+
+        print(f"✓ Successfully compiled to {mjb_path}")
+        print(f"  Model dimensions:")
+        print(f"    - Bodies: {model.nbody}")
+        print(f"    - Joints: {model.njnt}")
+        print(f"    - Actuators: {model.nu}")
+        print(f"    - Tendons: {model.ntendon}")
+    finally:
+        os.chdir(original_dir)
 
 
 if __name__ == "__main__":
