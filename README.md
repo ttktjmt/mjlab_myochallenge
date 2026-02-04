@@ -59,6 +59,8 @@ Compile XML to MJB (optional, for faster loading):
 uv run compile-mjb
 ```
 
+**Note:** MJB compilation currently has compatibility issues with MuJoCo 3.4.0 due to tendon wrap elements in the MyoHand model. The XML files work correctly when loaded directly, so MJB compilation is optional.
+
 ## Troubleshooting
 
 ### macOS: Native Viewer with `uv` Virtual Environments
