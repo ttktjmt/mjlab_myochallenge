@@ -261,8 +261,6 @@ def die_reorient_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     #################### Actions ###################
 
     # MyoHand muscle actuators: controlled via TendonEffortActionCfg
-    # Using fixed XML (myohand_die_fixed.xml) with explicit sidesite attributes
-    # to preserve all 39 muscle actuators. See ISSUE_REPORT.md for details.
     actions: dict[str, ActionTermCfg] = {
         "myohand": mdp.TendonEffortActionCfg(
             entity_name="myohand",

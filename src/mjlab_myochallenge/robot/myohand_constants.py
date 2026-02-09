@@ -1,6 +1,5 @@
 from pathlib import Path
 import mujoco
-import os
 
 from mjlab.entity import EntityCfg, EntityArticulationInfoCfg
 from mjlab.utils.spec_config import CollisionCfg
@@ -9,21 +8,81 @@ from mjlab.viewer import ViewerConfig
 from mjlab.actuator import XmlMuscleActuatorCfg
 from mjlab.actuator.actuator import TransmissionType
 
-# Use fixed MyoHand XML with sidesite attributes to work around MuJoCo 3.4.0 bug
-# See ISSUE_REPORT.md for details on the spec.attach() prefix bug
-MYOHAND_DIE_XML = Path(os.path.dirname(__file__)) / "assets" / "myohand_die_fixed.xml"
+# Load original myohand_die.xml from myosuite's gymnasium registry
+import myosuite  # noqa: F401 (triggers env registration)
+import gymnasium
+MYOHAND_DIE_XML = Path(gymnasium.spec("myoChallengeDieReorientP1-v0").kwargs["model_path"]).resolve()
 
 if not MYOHAND_DIE_XML.exists():
     raise FileNotFoundError(f"MyoHand Die XML not found at {MYOHAND_DIE_XML}")
 
 
+def _resolve_xml_paths(xml_str: str) -> str:
+    """Convert relative meshdir/texturedir/file paths to absolute paths.
+
+    Required because we reload the XML via MjSpec.from_string(), which has
+    no base directory for resolving relative paths.
+    """
+    xml_dir = MYOHAND_DIE_XML.parent
+    abs_simhive = (xml_dir / "../../../../simhive/myo_sim").resolve()
+    xml_str = xml_str.replace(
+        'meshdir="../../../../simhive/myo_sim/"',
+        f'meshdir="{abs_simhive}/"',
+    )
+    xml_str = xml_str.replace(
+        'texturedir="../../../../simhive/myo_sim/"',
+        f'texturedir="{abs_simhive}/"',
+    )
+    abs_dice = (abs_simhive / "../../envs/myo/assets/hand/dice.png").resolve()
+    xml_str = xml_str.replace(
+        'file="../../envs/myo/assets/hand/dice.png"',
+        f'file="{abs_dice}"',
+    )
+    return xml_str
+
+
+def _patch_tendon_sidesites(xml_str: str) -> str:
+    """Add missing sidesite attributes to 3 tendon wraps (EDM, EPL, FPL).
+
+    Without these, MuJoCo's spec.attach() silently drops the corresponding
+    actuators. Also adds the MPthumb_site_EPL_side site which is commented
+    out in the original myohand_body.xml.
+    """
+    # Add MPthumb_site_EPL_side (commented out in original myohand_body.xml)
+    xml_str = xml_str.replace(
+        '<site name="MPthumb_site_EPB_side"',
+        '<site name="MPthumb_site_EPL_side" pos="0.0233473 -0.0173314 -0.02"'
+        ' class="myohand"/>\n'
+        '                                  <site name="MPthumb_site_EPB_side"',
+    )
+    # EDM_tendon: Fifthpm_wrap missing sidesite
+    xml_str = xml_str.replace(
+        '<geom geom="Fifthpm_wrap"/>',
+        '<geom geom="Fifthpm_wrap" sidesite="Fifthpm_site_EDC5_side"/>',
+    )
+    # FPL_tendon: FPL_ellipsoid_wrap missing sidesite
+    xml_str = xml_str.replace(
+        '<geom geom="FPL_ellipsoid_wrap"/>',
+        '<geom geom="FPL_ellipsoid_wrap" sidesite="FPL_ellipsoid_site_FPL_side"/>',
+    )
+    # EPL_tendon: MPthumb_wrap missing sidesite
+    xml_str = xml_str.replace(
+        '<geom geom="MPthumb_wrap"/>',
+        '<geom geom="MPthumb_wrap" sidesite="MPthumb_site_EPL_side"/>',
+    )
+    return xml_str
+
+
 def get_myohand_spec() -> mujoco.MjSpec:
     """Load MyoHand die manipulation model spec."""
-    return mujoco.MjSpec.from_file(str(MYOHAND_DIE_XML))
+    spec = mujoco.MjSpec.from_file(str(MYOHAND_DIE_XML))
+    xml_str = spec.to_xml()
+    xml_str = _resolve_xml_paths(xml_str)
+    xml_str = _patch_tendon_sidesites(xml_str)
+    return mujoco.MjSpec.from_string(xml_str)
 
 
 # MyoHand has 39 muscle actuators (ECRL, ECRB, ECU, FCR, FCU, etc.)
-# These are defined in the myohand_assets_fixed.xml file
 # Use XmlMuscleActuatorCfg to load them from the XML
 MUSCLE_ACTUATOR_NAMES = (".*",)  # Match all actuators with regex
 
@@ -45,7 +104,6 @@ COLLISION_CFG = CollisionCfg(
 )
 
 # Articulation configuration - MyoHand uses muscle actuators via tendons
-# Using fixed XML (myohand_die_fixed.xml) that preserves all 39 actuators
 MUSCLE_ARTICULATION_CFG = EntityArticulationInfoCfg(
     actuators=(
         XmlMuscleActuatorCfg(
