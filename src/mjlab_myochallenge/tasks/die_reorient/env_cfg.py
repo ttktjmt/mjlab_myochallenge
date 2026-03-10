@@ -18,7 +18,7 @@ from mjlab.scene import SceneCfg
 from mjlab.terrains import TerrainImporterCfg
 from mjlab.utils.noise import UniformNoiseCfg as Unoise
 
-from mjlab_myochallenge.mdp.myochallenge import observations, rewards, terminations, events
+from mjlab_myochallenge.mdp.die_reorient import observations, rewards, terminations, events
 from mjlab_myochallenge.models.myohand import DEFAULT_MYOHAND_CFG, VIEWER_CONFIG, SIM_CFG
 
 
