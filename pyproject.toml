@@ -21,6 +21,9 @@ authors = [
 [project.entry-points."mjlab.tasks"]
 mjlab_myochallenge = "mjlab_myochallenge.tasks"
 
+[project.scripts]
+record = "mjlab_myochallenge.scripts.record:main"
+
 [tool.ruff]
 src = ["src/mjlab_myochallenge"]
 indent-width = 4
