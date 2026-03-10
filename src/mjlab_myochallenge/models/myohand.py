@@ -1,17 +1,25 @@
+"""MyoHand model configuration for mjlab.
+
+Resolves the MJCF path from the installed myosuite package and provides
+the EntityCfg used to load the MyoHand die-manipulation model into mjlab's
+scene pipeline via spec_fn / MjSpec injection.
+"""
+
 from pathlib import Path
 import mujoco
 
 from mjlab.entity import EntityCfg, EntityArticulationInfoCfg
-from mjlab.utils.spec_config import CollisionCfg
 from mjlab.sim import MujocoCfg, SimulationCfg
 from mjlab.viewer import ViewerConfig
 from mjlab.actuator import XmlMuscleActuatorCfg
 from mjlab.actuator.actuator import TransmissionType
 
-# Load original myohand_die.xml from myosuite's gymnasium registry
-import myosuite  # noqa: F401 (triggers env registration)
+import myosuite  # noqa: F401 — triggers gym env registration
 import gymnasium
-MYOHAND_DIE_XML = Path(gymnasium.spec("myoChallengeDieReorientP1-v0").kwargs["model_path"]).resolve()
+
+MYOHAND_DIE_XML = Path(
+    gymnasium.spec("myoChallengeDieReorientP1-v0").kwargs["model_path"]
+).resolve()
 
 if not MYOHAND_DIE_XML.exists():
     raise FileNotFoundError(f"MyoHand Die XML not found at {MYOHAND_DIE_XML}")
@@ -73,62 +81,56 @@ def _patch_tendon_sidesites(xml_str: str) -> str:
     return xml_str
 
 
+def _disable_body_collision_geoms(spec: mujoco.MjSpec) -> None:
+    """Restore contype=0/conaffinity=0 for large non-collision body geoms.
+
+    mjlab's CollisionCfg sets contype/conaffinity=1 on all geoms (including
+    unnamed ones) when using geom_names_expr=".*".  But the myohand model has
+    large unnamed ellipsoid geoms representing the torso/body that deliberately
+    have contype=0 in the MJCF.  Leaving them enabled causes massive contact
+    forces that launch the die off the palm immediately after reset.
+    """
+    for geom in spec.geoms:
+        if geom.name == "" and geom.type == mujoco.mjtGeom.mjGEOM_ELLIPSOID:
+            geom.contype = 0
+            geom.conaffinity = 0
+
+
 def get_myohand_spec() -> mujoco.MjSpec:
     """Load MyoHand die manipulation model spec."""
     spec = mujoco.MjSpec.from_file(str(MYOHAND_DIE_XML))
     xml_str = spec.to_xml()
     xml_str = _resolve_xml_paths(xml_str)
     xml_str = _patch_tendon_sidesites(xml_str)
-    return mujoco.MjSpec.from_string(xml_str)
+    spec = mujoco.MjSpec.from_string(xml_str)
+    _disable_body_collision_geoms(spec)
+    return spec
 
 
-# MyoHand has 39 muscle actuators (ECRL, ECRB, ECU, FCR, FCU, etc.)
-# Use XmlMuscleActuatorCfg to load them from the XML
-MUSCLE_ACTUATOR_NAMES = (".*",)  # Match all actuators with regex
-
-# Initial hand pose: palm facing up (fingers open)
-# MyoHand joints are controlled by muscle activations
-DEFAULT_HAND_QPOS = {
-    r".*": 0.0  # All joints start at 0 (open hand position)
-}
-
-# Initial die position and orientation
-DIE_INIT_POS = (0.015, 0.025, 0.025)  # Resting on palm
-DIE_INIT_QUAT = (1.0, 0.0, 0.0, 0.0)  # No rotation initially
-
-# Collision configuration for MyoHand
-COLLISION_CFG = CollisionCfg(
-    geom_names_expr=tuple([".*"]),  # All geoms can collide
-    condim={r".*": 3},  # 3D contact for all geoms
-    friction={r".*": (1.0, 0.005, 0.0001)},  # Default friction
-)
-
-# Articulation configuration - MyoHand uses muscle actuators via tendons
-MUSCLE_ARTICULATION_CFG = EntityArticulationInfoCfg(
-    actuators=(
-        XmlMuscleActuatorCfg(
-            target_names_expr=MUSCLE_ACTUATOR_NAMES,
-            transmission_type=TransmissionType.TENDON,
-        ),
-    ),
-)
-
-# Default MyoHand entity configuration
 DEFAULT_MYOHAND_CFG = EntityCfg(
     spec_fn=get_myohand_spec,
     init_state=EntityCfg.InitialStateCfg(
-        pos=(0, 0, 0),  # MyoHand is fixed at origin
-        joint_pos=DEFAULT_HAND_QPOS,
+        pos=(0, 0, 0),
+        joint_pos={r".*": 0.0},
         joint_vel={".*": 0.0},
     ),
-    collisions=(COLLISION_CFG,),
-    articulation=MUSCLE_ARTICULATION_CFG,
+    # No CollisionCfg override: the MJCF already has correct contype/friction values
+    # (contype=0 for structural/bone geoms, contype=1 for skin/contact capsules,
+    # and friction=[1.0, 0.005, 0.0001] everywhere).
+    articulation=EntityArticulationInfoCfg(
+        actuators=(
+            XmlMuscleActuatorCfg(
+                target_names_expr=(".*",),
+                transmission_type=TransmissionType.TENDON,
+            ),
+        ),
+    ),
 )
 
 VIEWER_CONFIG = ViewerConfig(
     origin_type=ViewerConfig.OriginType.ASSET_BODY,
     entity_name="myohand",
-    body_name="radius",  # Center camera on radius (forearm bone)
+    body_name="radius",
     distance=0.5,
     elevation=-10.0,
     azimuth=180.0,
@@ -136,25 +138,10 @@ VIEWER_CONFIG = ViewerConfig(
 
 SIM_CFG = SimulationCfg(
     mujoco=MujocoCfg(
-        timestep=0.002,  # 2ms timestep (500 Hz)
-        iterations=5,
-        ls_iterations=10,
+        timestep=0.002,
+        iterations=100,
+        ls_iterations=50,
     ),
     nconmax=512,
     njmax=1024,
 )
-
-if __name__ == "__main__":
-    import mujoco.viewer as viewer
-
-    from mjlab.scene import SceneCfg, Scene
-    from mjlab.terrains import TerrainImporterCfg
-
-    SCENE_CFG = SceneCfg(
-        terrain=TerrainImporterCfg(terrain_type="plane"),
-        entities={"myohand": DEFAULT_MYOHAND_CFG},
-    )
-
-    scene = Scene(SCENE_CFG, device="cuda:0")
-
-    viewer.launch(scene.compile())
