@@ -29,12 +29,12 @@ def get_model_ids(env) -> dict[str, int]:
     ``entity_name/`` prefix that mjlab adds on ``spec.attach()``.
 
     Keys returned:
-      object_bid  – body index of the die
-      goal_bid    – body index of the goal marker
-      object_sid  – site index of the die centre site
-      goal_sid    – site index of the goal centre site
-      die_qposadr – qpos address of the die's first joint (x-slide)
-      die_ndof    – number of die qpos DOFs (6 for 3 slide + 3 hinge)
+      object_bid  - body index of the die
+      goal_bid    - body index of the goal marker
+      object_sid  - site index of the die centre site
+      goal_sid    - site index of the goal centre site
+      die_qposadr - qpos address of the die's first joint (x-slide)
+      die_ndof    - number of die qpos DOFs (6 for 3 slide + 3 hinge)
     """
     m = env.sim.mj_model
     model_id = id(m)

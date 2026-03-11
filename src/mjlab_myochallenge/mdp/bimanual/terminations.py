@@ -4,7 +4,7 @@ import torch
 
 from mjlab.envs import ManagerBasedRlEnv
 
-from .utils import get_bimanual_model_ids, get_object_pos
+from .utils import get_object_pos
 
 
 def object_dropped(env: ManagerBasedRlEnv, drop_z_th: float = 0.3) -> torch.Tensor:

@@ -30,19 +30,19 @@ def get_bimanual_model_ids(env) -> dict:
     """Resolve and cache bimanual body/site/qpos addresses.
 
     Returns a dict with keys:
-      manip_bid      – body index of manip_object
-      start_bid      – body index of start pillar
-      goal_bid       – body index of goal pillar
-      touch_sid      – site index of touch_site (on object)
-      palm_sid       – site index of MyoArm palm grasp site
-      rpalm1_sid     – site index of prosthesis palm_thumb site
-      rpalm2_sid     – site index of prosthesis palm_pinky site
-      obj_qposadr    – qpos address of manip_object freejoint (pos x)
-      obj_qveladr    – qvel address of manip_object freejoint (vel x)
-      myo_qpos_end   – qpos address just before prosthesis joints
-      prosth_qpos_start – qpos address of first prosthesis joint
-      prosth_qpos_end   – qpos address just after last prosthesis joint
-      mpl_ctrl_ids   – local ctrl indices for MPL position actuators (tensor)
+      manip_bid      - body index of manip_object
+      start_bid      - body index of start pillar
+      goal_bid       - body index of goal pillar
+      touch_sid      - site index of touch_site (on object)
+      palm_sid       - site index of MyoArm palm grasp site
+      rpalm1_sid     - site index of prosthesis palm_thumb site
+      rpalm2_sid     - site index of prosthesis palm_pinky site
+      obj_qposadr    - qpos address of manip_object freejoint (pos x)
+      obj_qveladr    - qvel address of manip_object freejoint (vel x)
+      myo_qpos_end   - qpos address just before prosthesis joints
+      prosth_qpos_start - qpos address of first prosthesis joint
+      prosth_qpos_end   - qpos address just after last prosthesis joint
+      mpl_ctrl_ids   - local ctrl indices for MPL position actuators (tensor)
     """
     m = env.sim.mj_model
     mid = id(m)

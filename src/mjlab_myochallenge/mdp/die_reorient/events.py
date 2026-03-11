@@ -26,7 +26,7 @@ def reset_die_and_goal(
     n = len(env_ids)
     ids = get_model_ids(env)
     qposadr = ids["die_qposadr"]   # first slide joint (x)
-    ndof = ids["die_ndof"]         # 6  (3 slide + 3 hinge)
+    _ndof = ids["die_ndof"]         # 6  (3 slide + 3 hinge)
     hand_dof = qposadr             # hand joints occupy qpos[0:qposadr]
 
     # ---- goal orientation ----
