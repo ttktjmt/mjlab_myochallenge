@@ -53,6 +53,30 @@ def _resolve_xml_paths(xml_str: str) -> str:
     return xml_str
 
 
+def _patch_material_names(xml_str: str) -> str:
+    """Remove unresolvable material references from MPL touch sites.
+
+    MuJoCo's spec.attach() updates material *definitions* with the entity
+    prefix but does NOT update material *references* inside <site> elements.
+    The MPL touch sites use material="prosthesis/MatTouch" which becomes
+    unreachable after attachment.  Strip the material attribute from those
+    sites (group="3", purely visual) to prevent compile-time errors.
+    """
+    import re
+
+    # Remove material="..." from <site> tags where the material name contains
+    # a '/' (e.g. "prosthesis/MatTouch", "prosthesis/MatIMU").  MuJoCo's
+    # spec.attach() prefixes the material *definition* but not the *reference*
+    # inside <site>, leaving them unresolvable after attachment.  These sites
+    # are purely visual (group="3"/"4") so dropping the material is safe.
+    xml_str = re.sub(
+        r'(<site\b[^>]*)\s+material="[^"/]*/[^"]*"([^>]*>)',
+        r"\1\2",
+        xml_str,
+    )
+    return xml_str
+
+
 def _patch_tendon_sidesites(xml_str: str) -> str:
     """Add missing sidesite attributes to tendon wraps.
 
@@ -105,9 +129,21 @@ def get_bimanual_spec() -> mujoco.MjSpec:
     spec = mujoco.MjSpec.from_file(str(BIMANUAL_XML))
     xml_str = spec.to_xml()
     xml_str = _resolve_xml_paths(xml_str)
+    xml_str = _patch_material_names(xml_str)
     xml_str = _patch_tendon_sidesites(xml_str)
     spec = mujoco.MjSpec.from_string(xml_str)
     _disable_body_collision_geoms(spec)
+    # scene.py only deletes keys[0] before attaching; extra keyframes with
+    # empty names all become "bimanual/" after prefix attachment, causing
+    # "repeated name 'bimanual/' in key" at compile time. Keep only key[0].
+    for key in list(spec.keys)[1:]:
+        spec.delete(key)
+    # Remove unnamed sensors: spec.attach() does not prefix empty-named
+    # elements, so they stay "" in the scene spec.  The scene then tries
+    # mj_model.sensor("") which raises KeyError.
+    for sensor in list(spec.sensors):
+        if sensor.name == "":
+            spec.delete(sensor)
     return spec
 
 
