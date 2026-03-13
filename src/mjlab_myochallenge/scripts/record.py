@@ -2,7 +2,7 @@
 Script to record RL agent visualization to .viser file.
 
 Usage:
-  uv run scripts/record.py Myosuite-Manipulation-DieReorient-Myohand \
+  uv run scripts/record.py Myosuite-Manipulation-DieReorient-Myohand-v0 \
     --wandb-run-path team/project/run-id \
     --output-file recordings/<filename>.viser
 """

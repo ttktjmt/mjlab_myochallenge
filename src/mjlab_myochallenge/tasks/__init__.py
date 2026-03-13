@@ -7,7 +7,7 @@ from .bimanual.env_cfg import bimanual_env_cfg
 from .bimanual.rl_cfg import BimanualRlCfg
 
 register_mjlab_task(
-    task_id="Myosuite-Manipulation-DieReorient-Myohand",
+    task_id="Myosuite-Manipulation-DieReorient-Myohand-v0",
     env_cfg=die_reorient_env_cfg(play=False),
     play_env_cfg=die_reorient_env_cfg(play=True),
     rl_cfg=DieReorientRlCfg(max_iterations=50_000),
@@ -15,7 +15,7 @@ register_mjlab_task(
 )
 
 register_mjlab_task(
-    task_id="Myosuite-Manipulation-Bimanual-2024",
+    task_id="Myosuite-Manipulation-Bimanual-Myoarm-v0",
     env_cfg=bimanual_env_cfg(play=False),
     play_env_cfg=bimanual_env_cfg(play=True),
     rl_cfg=BimanualRlCfg(max_iterations=100_000),

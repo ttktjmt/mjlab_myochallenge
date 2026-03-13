@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "MyoChallenge environments and tasks in mjlab framework"
 requires-python = ">=3.10,<3.14"
 dependencies = [
-    "mjlab",
+    "mjlab>=1.2.0",
     "myosuite",
     "numpy",
     "torch",
@@ -29,10 +29,9 @@ src = ["src/mjlab_myochallenge"]
 indent-width = 4
 
 [tool.uv.sources]
-mjlab = { git = "https://github.com/mujocolab/mjlab.git" }
 myosuite = { git = "https://github.com/MyoHub/myosuite.git", branch = "mjx" }
 
 [tool.uv]
 override-dependencies = [
-    "mujoco>=3.4.0",
+    "mujoco>=3.6.0",
 ]

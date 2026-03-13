@@ -3,8 +3,8 @@
 from dataclasses import dataclass, field
 
 from mjlab.rl import (
+    RslRlModelCfg,
     RslRlOnPolicyRunnerCfg,
-    RslRlPpoActorCriticCfg,
     RslRlPpoAlgorithmCfg,
 )
 
@@ -13,14 +13,19 @@ from mjlab.rl import (
 class DieReorientRlCfg(RslRlOnPolicyRunnerCfg):
     """PPO configuration for MyoHand Die Reorientation."""
 
-    policy: RslRlPpoActorCriticCfg = field(
-        default_factory=lambda: RslRlPpoActorCriticCfg(
-            init_noise_std=0.5,
-            actor_obs_normalization=True,
-            critic_obs_normalization=True,
-            actor_hidden_dims=(256, 128, 64),
-            critic_hidden_dims=(256, 128, 64),
+    actor: RslRlModelCfg = field(
+        default_factory=lambda: RslRlModelCfg(
+            hidden_dims=(256, 128, 64),
             activation="elu",
+            obs_normalization=True,
+            distribution_cfg={"class_name": "GaussianDistribution", "init_std": 0.5, "std_type": "scalar"},
+        )
+    )
+    critic: RslRlModelCfg = field(
+        default_factory=lambda: RslRlModelCfg(
+            hidden_dims=(256, 128, 64),
+            activation="elu",
+            obs_normalization=True,
         )
     )
     algorithm: RslRlPpoAlgorithmCfg = field(
