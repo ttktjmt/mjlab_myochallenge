@@ -150,7 +150,11 @@ def get_bimanual_spec() -> mujoco.MjSpec:
 DEFAULT_BIMANUAL_CFG = EntityCfg(
     spec_fn=get_bimanual_spec,
     init_state=EntityCfg.InitialStateCfg(
-        pos=(0, 0, 0),
+        # full_body (root) must be placed at its original world position from
+        # the MJCF: <body name="full_body" pos="-.025 0.1 1.40">.
+        # entity.py overwrites root_body.pos with init_state.pos for fixed-base
+        # entities, so we must match the original pos here.
+        pos=(-0.025, 0.1, 1.4),
         # joint_pos=None to use the model's existing keyframe (key[0])
         joint_pos=None,
         joint_vel={".*": 0.0},
