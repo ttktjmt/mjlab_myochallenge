@@ -2,10 +2,14 @@ version = 1
 revision = 3
 requires-python = ">=3.10, <3.14"
 resolution-markers = [
-    "python_full_version >= '3.13'",
-    "python_full_version == '3.12.*'",
-    "python_full_version == '3.11.*'",
-    "python_full_version < '3.11'",
+    "python_full_version >= '3.13' and sys_platform != 'darwin'",
+    "python_full_version >= '3.13' and sys_platform == 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform == 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform == 'darwin'",
+    "python_full_version < '3.11' and sys_platform != 'darwin'",
+    "python_full_version < '3.11' and sys_platform == 'darwin'",
 ]
 
 [manifest]
@@ -307,7 +311,8 @@ name = "contourpy"
 version = "1.3.2"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version < '3.11'",
+    "python_full_version < '3.11' and sys_platform != 'darwin'",
+    "python_full_version < '3.11' and sys_platform == 'darwin'",
 ]
 dependencies = [
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
@@ -377,9 +382,12 @@ name = "contourpy"
 version = "1.3.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.13'",
-    "python_full_version == '3.12.*'",
-    "python_full_version == '3.11.*'",
+    "python_full_version >= '3.13' and sys_platform != 'darwin'",
+    "python_full_version >= '3.13' and sys_platform == 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform == 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform == 'darwin'",
 ]
 dependencies = [
     { name = "numpy", version = "2.4.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
@@ -488,7 +496,7 @@ name = "cuda-bindings"
 version = "12.9.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cuda-pathfinder" },
+    { name = "cuda-pathfinder", marker = "sys_platform != 'darwin'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7a/d8/b546104b8da3f562c1ff8ab36d130c8fe1dd6a045ced80b4f6ad74f7d4e1/cuda_bindings-12.9.4-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:4d3c842c2a4303b2a580fe955018e31aea30278be19795ae05226235268032e5", size = 12148218, upload-time = "2025-10-21T14:51:28.855Z" },
@@ -573,7 +581,8 @@ name = "etils"
 version = "1.13.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version < '3.11'",
+    "python_full_version < '3.11' and sys_platform != 'darwin'",
+    "python_full_version < '3.11' and sys_platform == 'darwin'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/9b/a0/522bbff0f3cdd37968f90dd7f26c7aa801ed87f5ba335f156de7f2b88a48/etils-1.13.0.tar.gz", hash = "sha256:a5b60c71f95bcd2d43d4e9fb3dc3879120c1f60472bb5ce19f7a860b1d44f607", size = 106368, upload-time = "2025-07-15T10:29:10.563Z" }
 wheels = [
@@ -593,9 +602,12 @@ name = "etils"
 version = "1.14.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.13'",
-    "python_full_version == '3.12.*'",
-    "python_full_version == '3.11.*'",
+    "python_full_version >= '3.13' and sys_platform != 'darwin'",
+    "python_full_version >= '3.13' and sys_platform == 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform == 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform == 'darwin'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/26/ce/6e067242fde898841922ac6fc82b0bb2fe35c38e995880bdffdfbe30182a/etils-1.14.0.tar.gz", hash = "sha256:8136e7f4c4173cd0af0ca5481c4475152f0b8686192951eefa60ee8711e1ede4", size = 108127, upload-time = "2026-03-04T17:41:36.291Z" }
 wheels = [
@@ -1000,7 +1012,8 @@ name = "ipython"
 version = "8.38.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version < '3.11'",
+    "python_full_version < '3.11' and sys_platform != 'darwin'",
+    "python_full_version < '3.11' and sys_platform == 'darwin'",
 ]
 dependencies = [
     { name = "colorama", marker = "python_full_version < '3.11' and sys_platform == 'win32'" },
@@ -1025,7 +1038,8 @@ name = "ipython"
 version = "9.10.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version == '3.11.*'",
+    "python_full_version == '3.11.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform == 'darwin'",
 ]
 dependencies = [
     { name = "colorama", marker = "python_full_version == '3.11.*' and sys_platform == 'win32'" },
@@ -1050,8 +1064,10 @@ name = "ipython"
 version = "9.11.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.13'",
-    "python_full_version == '3.12.*'",
+    "python_full_version >= '3.13' and sys_platform != 'darwin'",
+    "python_full_version >= '3.13' and sys_platform == 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform == 'darwin'",
 ]
 dependencies = [
     { name = "colorama", marker = "python_full_version >= '3.12' and sys_platform == 'win32'" },
@@ -1585,10 +1601,11 @@ wheels = [
 [[package]]
 name = "mjlab"
 version = "1.2.0"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/mujocolab/mjlab.git#0cdbf25eb1195b07589dd9ce23f7fe10d7cdfff1" }
 dependencies = [
     { name = "imageio-ffmpeg" },
     { name = "mediapy" },
+    { name = "mjviser" },
     { name = "mujoco" },
     { name = "mujoco-warp" },
     { name = "onnxscript" },
@@ -1605,10 +1622,6 @@ dependencies = [
     { name = "wandb" },
     { name = "warp-lang" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/32/66/b8df336a1adc8ad177478048f581234ac1a209928843f29c1185f6078200/mjlab-1.2.0.tar.gz", hash = "sha256:c41cf754af4a56ffbb355a83bd1a9de3900d91d514a0b184d9f0ce79e79a1ae0", size = 14053423, upload-time = "2026-03-06T22:03:03.335Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/85/9a/9a54101887cd3ade9c766adc668138a827f33c237bb4d5752c5a56fd1297/mjlab-1.2.0-py3-none-any.whl", hash = "sha256:2b2fdbce0ddb8920ed550777f3ed8c266ee1bd2daeef9b936ba8e0423e5e2e13", size = 14139534, upload-time = "2026-03-06T22:03:06.775Z" },
-]
 
 [[package]]
 name = "mjlab-myochallenge"
@@ -1624,10 +1637,27 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "mjlab", specifier = ">=1.2.0" },
+    { name = "mjlab", git = "https://github.com/mujocolab/mjlab.git" },
     { name = "myosuite", git = "https://github.com/MyoHub/myosuite.git?branch=mjx" },
     { name = "numpy" },
     { name = "torch" },
+]
+
+[[package]]
+name = "mjviser"
+version = "0.0.11"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "mujoco" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.4.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "pillow" },
+    { name = "trimesh" },
+    { name = "viser" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d6/c4/7de1e89d8abc19785e307eebc0990cee9d76e9e045a654f425b3cef2f595/mjviser-0.0.11.tar.gz", hash = "sha256:aebc12785995d4fe1aa3e46cb13f0e464dfd8abe9f63d30ebe77f78767e8cedf", size = 29193, upload-time = "2026-04-02T03:32:01.777Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/71/da/116ec59e1de628fbd6330e21d05452d6755f5ab0b55c55a2b37c81ec0868/mjviser-0.0.11-py3-none-any.whl", hash = "sha256:8c4ed7570e0e74171a983cb1603329315fcc46ace0a24d47ab1fde2044a56b59", size = 31937, upload-time = "2026-04-02T03:32:02.717Z" },
 ]
 
 [[package]]
@@ -1755,7 +1785,7 @@ wheels = [
 [[package]]
 name = "mujoco-warp"
 version = "3.6.0"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/google-deepmind/mujoco_warp?rev=36fc8bef0f12bf8ade95a106b03f00dd1a8a82e9#36fc8bef0f12bf8ade95a106b03f00dd1a8a82e9" }
 dependencies = [
     { name = "absl-py" },
     { name = "etils", version = "1.13.0", source = { registry = "https://pypi.org/simple" }, extra = ["epath"], marker = "python_full_version < '3.11'" },
@@ -1764,10 +1794,6 @@ dependencies = [
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "numpy", version = "2.4.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "warp-lang" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/0e/de/b853418268e9777cad2792ee3a145c8397e3d4517d136499645847ffd7f2/mujoco_warp-3.6.0.tar.gz", hash = "sha256:3c4111a4e13dc61268ddac52593ac5032c05a7d80f0c5e3c98bf5881e32b5d06", size = 1887269, upload-time = "2026-03-11T01:11:44.343Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/a3/b5/06c1e23c0cc4a06da268aa5f0fe05348d89c9ecbd3ecfb4c6d2b14ea23b2/mujoco_warp-3.6.0-py3-none-any.whl", hash = "sha256:371a405b186332cbfaa9630aabf35967405ef847cb7ea7c018ec67426a2ea160", size = 1965960, upload-time = "2026-03-11T01:11:42.527Z" },
 ]
 
 [[package]]
@@ -1795,7 +1821,8 @@ name = "networkx"
 version = "3.4.2"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version < '3.11'",
+    "python_full_version < '3.11' and sys_platform != 'darwin'",
+    "python_full_version < '3.11' and sys_platform == 'darwin'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/fd/1d/06475e1cd5264c0b870ea2cc6fdb3e37177c1e565c43f56ff17a10e3937f/networkx-3.4.2.tar.gz", hash = "sha256:307c3669428c5362aab27c8a1260aa8f47c4e91d3891f48be0141738d8d053e1", size = 2151368, upload-time = "2024-10-21T12:39:38.695Z" }
 wheels = [
@@ -1807,9 +1834,12 @@ name = "networkx"
 version = "3.6.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.13'",
-    "python_full_version == '3.12.*'",
-    "python_full_version == '3.11.*'",
+    "python_full_version >= '3.13' and sys_platform != 'darwin'",
+    "python_full_version >= '3.13' and sys_platform == 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform == 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform == 'darwin'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/6a/51/63fe664f3908c97be9d2e4f1158eb633317598cfa6e1fc14af5383f17512/networkx-3.6.1.tar.gz", hash = "sha256:26b7c357accc0c8cde558ad486283728b65b6a95d85ee1cd66bafab4c8168509", size = 2517025, upload-time = "2025-12-08T17:02:39.908Z" }
 wheels = [
@@ -1821,7 +1851,8 @@ name = "numpy"
 version = "2.2.6"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version < '3.11'",
+    "python_full_version < '3.11' and sys_platform != 'darwin'",
+    "python_full_version < '3.11' and sys_platform == 'darwin'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/76/21/7d2a95e4bba9dc13d043ee156a356c0a8f0c6309dff6b21b4d71a073b8a8/numpy-2.2.6.tar.gz", hash = "sha256:e29554e2bef54a90aa5cc07da6ce955accb83f21ab5de01a62c8478897b264fd", size = 20276440, upload-time = "2025-05-17T22:38:04.611Z" }
 wheels = [
@@ -1886,9 +1917,12 @@ name = "numpy"
 version = "2.4.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.13'",
-    "python_full_version == '3.12.*'",
-    "python_full_version == '3.11.*'",
+    "python_full_version >= '3.13' and sys_platform != 'darwin'",
+    "python_full_version >= '3.13' and sys_platform == 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform == 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform == 'darwin'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/10/8b/c265f4823726ab832de836cdd184d0986dcf94480f81e8739692a7ac7af2/numpy-2.4.3.tar.gz", hash = "sha256:483a201202b73495f00dbc83796c6ae63137a9bdade074f7648b3e32613412dd", size = 20727743, upload-time = "2026-03-09T07:58:53.426Z" }
 wheels = [
@@ -1981,7 +2015,7 @@ name = "nvidia-cudnn-cu12"
 version = "9.10.2.21"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-cublas-cu12" },
+    { name = "nvidia-cublas-cu12", marker = "sys_platform != 'darwin'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ba/51/e123d997aa098c61d029f76663dedbfb9bc8dcf8c60cbd6adbe42f76d049/nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl", hash = "sha256:949452be657fa16687d0930933f032835951ef0892b37d2d53824d1a84dc97a8", size = 706758467, upload-time = "2025-06-06T21:54:08.597Z" },
@@ -1992,7 +2026,7 @@ name = "nvidia-cufft-cu12"
 version = "11.3.3.83"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-nvjitlink-cu12" },
+    { name = "nvidia-nvjitlink-cu12", marker = "sys_platform != 'darwin'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1f/13/ee4e00f30e676b66ae65b4f08cb5bcbb8392c03f54f2d5413ea99a5d1c80/nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:4d2dd21ec0b88cf61b62e6b43564355e5222e4a3fb394cac0db101f2dd0d4f74", size = 193118695, upload-time = "2025-03-07T01:45:27.821Z" },
@@ -2019,9 +2053,9 @@ name = "nvidia-cusolver-cu12"
 version = "11.7.3.90"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-cublas-cu12" },
-    { name = "nvidia-cusparse-cu12" },
-    { name = "nvidia-nvjitlink-cu12" },
+    { name = "nvidia-cublas-cu12", marker = "sys_platform != 'darwin'" },
+    { name = "nvidia-cusparse-cu12", marker = "sys_platform != 'darwin'" },
+    { name = "nvidia-nvjitlink-cu12", marker = "sys_platform != 'darwin'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/85/48/9a13d2975803e8cf2777d5ed57b87a0b6ca2cc795f9a4f59796a910bfb80/nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl", hash = "sha256:4376c11ad263152bd50ea295c05370360776f8c3427b30991df774f9fb26c450", size = 267506905, upload-time = "2025-03-07T01:47:16.273Z" },
@@ -2032,7 +2066,7 @@ name = "nvidia-cusparse-cu12"
 version = "12.5.8.93"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-nvjitlink-cu12" },
+    { name = "nvidia-nvjitlink-cu12", marker = "sys_platform != 'darwin'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c2/f5/e1854cb2f2bcd4280c44736c93550cc300ff4b8c95ebe370d0aa7d2b473d/nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:1ec05d76bbbd8b61b06a80e1eaf8cf4959c3d4ce8e711b65ebd0443bb0ebb13b", size = 288216466, upload-time = "2025-03-07T01:48:13.779Z" },
@@ -2833,7 +2867,8 @@ name = "scipy"
 version = "1.15.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version < '3.11'",
+    "python_full_version < '3.11' and sys_platform != 'darwin'",
+    "python_full_version < '3.11' and sys_platform == 'darwin'",
 ]
 dependencies = [
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
@@ -2892,9 +2927,12 @@ name = "scipy"
 version = "1.17.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.13'",
-    "python_full_version == '3.12.*'",
-    "python_full_version == '3.11.*'",
+    "python_full_version >= '3.13' and sys_platform != 'darwin'",
+    "python_full_version >= '3.13' and sys_platform == 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform == 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform != 'darwin'",
+    "python_full_version == '3.11.*' and sys_platform == 'darwin'",
 ]
 dependencies = [
     { name = "numpy", version = "2.4.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
@@ -3442,7 +3480,7 @@ wheels = [
 
 [[package]]
 name = "viser"
-version = "1.0.24"
+version = "1.0.26"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "imageio" },
@@ -3458,9 +3496,9 @@ dependencies = [
     { name = "yourdfpy" },
     { name = "zstandard" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e4/7f/a0ea9ae86b7c51332f4dfe54476683747568857d550779ed556f4584deb6/viser-1.0.24.tar.gz", hash = "sha256:d1f52c8dccf553b1d5a8825f631344e2e91b2d5615dfac41cb81fd50035d9224", size = 4780467, upload-time = "2026-02-26T23:12:53.655Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/12/ce/82a0e50fae21f5e02fcc5d9aff2ab59dccb9c319b6c4cf528f2228049b05/viser-1.0.26.tar.gz", hash = "sha256:dc08c6f505e70324b0603bdddf9714c00ac828c259ee49abd8ad094bfc90c91c", size = 4828261, upload-time = "2026-03-30T11:43:19.513Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/83/6e/137abad4a09314654da21eb11b187b98c5b2b2da792d375af38c9b608698/viser-1.0.24-py3-none-any.whl", hash = "sha256:df91331b6c20c8fb39367faaa8eb2707cb3a403cb8b6f18396683798aa68ccba", size = 4864557, upload-time = "2026-02-26T23:12:55.417Z" },
+    { url = "https://files.pythonhosted.org/packages/91/f7/762a2d5fab509d0c632b271e21e634462397cc02cca649771c3e9d2e0bcc/viser-1.0.26-py3-none-any.whl", hash = "sha256:03b177b4ef584f58f7b74fdf44cccb165b8a220ffd90728ef5c1e3d1b1fcf258", size = 4922888, upload-time = "2026-03-30T11:43:21.355Z" },
 ]
 
 [[package]]
@@ -3494,17 +3532,17 @@ wheels = [
 
 [[package]]
 name = "warp-lang"
-version = "1.12.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.12.1"
+source = { registry = "https://pypi.nvidia.com/" }
 dependencies = [
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "numpy", version = "2.4.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7d/15/fadf3e3ba5c1c907530c20c98402aaef792da74bbbe382c848cef6e5affe/warp_lang-1.12.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:c78c3701d5cad86c30ef5017410d294ec46a396bb0d502ee1c98743494f3a62f", size = 24168341, upload-time = "2026-03-06T19:42:16.333Z" },
-    { url = "https://files.pythonhosted.org/packages/98/13/deab9dbae5c6aa753ac8ea1d3b1f85d20c5bab7bdebd8916ce242fbe1f0b/warp_lang-1.12.0-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:a1436f60a1881cd94f787e751a83fc0987626be2d3e2b4e74c64a6947c6d1266", size = 136485344, upload-time = "2026-03-06T19:43:02.427Z" },
-    { url = "https://files.pythonhosted.org/packages/45/ce/9f5c57cac849edaba2f3335cb649b7019b09195b3af02221258482254559/warp_lang-1.12.0-py3-none-manylinux_2_34_aarch64.whl", hash = "sha256:a2d6decba693aba5b828573c4414fd6a3f4c4a934db9c322736ef2b3fa99fe76", size = 137735580, upload-time = "2026-03-06T19:44:22.279Z" },
-    { url = "https://files.pythonhosted.org/packages/7e/3f/1ddc888fe769447ae33915a9567a9dd7467e1fc7fc8010d39e01b339667f/warp_lang-1.12.0-py3-none-win_amd64.whl", hash = "sha256:697248edd2f1e2952f50e3db33b214af76173641a8894aacc467bed6dc247f8a", size = 119793582, upload-time = "2026-03-06T19:45:37.288Z" },
+    { url = "https://pypi.nvidia.com/warp-lang/warp_lang-1.12.1-py3-none-macosx_11_0_arm64.whl", hash = "sha256:98df3533a6c40a33cce961f8efa991006b30c9d286356e4cd77ea8ce86928f1d" },
+    { url = "https://pypi.nvidia.com/warp-lang/warp_lang-1.12.1-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:6bf01f10509488ba8eacaf4ec7fcf7cfbd503118b22e002ecba407b40a17424e" },
+    { url = "https://pypi.nvidia.com/warp-lang/warp_lang-1.12.1-py3-none-manylinux_2_34_aarch64.whl", hash = "sha256:af6d680e79c1be6e46ddf80ecaa358f222804f882f4683260a7b4abd80a0981b" },
+    { url = "https://pypi.nvidia.com/warp-lang/warp_lang-1.12.1-py3-none-win_amd64.whl", hash = "sha256:826b2f93df8e47eac0c751a8eb5a0533e2fc5434158c8896a63be53bfbd728c7" },
 ]
 
 [[package]]

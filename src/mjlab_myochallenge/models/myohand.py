@@ -11,7 +11,7 @@ import mujoco
 from mjlab.entity import EntityCfg, EntityArticulationInfoCfg
 from mjlab.sim import MujocoCfg, SimulationCfg
 from mjlab.viewer import ViewerConfig
-from mjlab.actuator import XmlMuscleActuatorCfg
+from mjlab.actuator import XmlActuatorCfg
 from mjlab.actuator.actuator import TransmissionType
 
 import myosuite  # noqa: F401 — triggers gym env registration
@@ -119,7 +119,7 @@ DEFAULT_MYOHAND_CFG = EntityCfg(
     # and friction=[1.0, 0.005, 0.0001] everywhere).
     articulation=EntityArticulationInfoCfg(
         actuators=(
-            XmlMuscleActuatorCfg(
+            XmlActuatorCfg(
                 target_names_expr=(".*",),
                 transmission_type=TransmissionType.TENDON,
             ),

@@ -15,7 +15,7 @@ from mjlab.managers.observation_manager import ObservationGroupCfg, ObservationT
 from mjlab.managers.reward_manager import RewardTermCfg
 from mjlab.managers.termination_manager import TerminationTermCfg
 from mjlab.scene import SceneCfg
-from mjlab.terrains import TerrainImporterCfg
+from mjlab.terrains import TerrainEntityCfg
 from mjlab.utils.noise import UniformNoiseCfg as Unoise
 
 from mjlab_myochallenge.mdp.die_reorient import observations, rewards, terminations, events
@@ -129,7 +129,7 @@ def die_reorient_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     # ------------------------------------------------------------------
     cfg = ManagerBasedRlEnvCfg(
         scene=SceneCfg(
-            terrain=TerrainImporterCfg(terrain_type="plane"),
+            terrain=TerrainEntityCfg(terrain_type="plane"),
             entities={"myohand": deepcopy(DEFAULT_MYOHAND_CFG)},
             num_envs=4,
             extent=2.0,
