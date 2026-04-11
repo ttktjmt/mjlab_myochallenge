@@ -82,16 +82,33 @@ def _patch_tendon_sidesites(xml_str: str) -> str:
 
 
 def _disable_body_collision_geoms(spec: mujoco.MjSpec) -> None:
-    """Restore contype=0/conaffinity=0 for large non-collision body geoms.
+    """Restore contype=0/conaffinity=0 for non-contact scene/body geoms.
 
     mjlab's CollisionCfg sets contype/conaffinity=1 on all geoms (including
     unnamed ones) when using geom_names_expr=".*".  But the myohand model has
     large unnamed ellipsoid geoms representing the torso/body that deliberately
     have contype=0 in the MJCF.  Leaving them enabled causes massive contact
     forces that launch the die off the palm immediately after reset.
+
+    The imported MyoSuite scene also contains a decorative floor plane and a
+    cylindrical arena wall.  In mjswan these show up as force targets, while
+    the mjlab scene already adds its own terrain plane, so we keep them visual
+    only here as well.
     """
     for geom in spec.geoms:
         if geom.name == "" and geom.type == mujoco.mjtGeom.mjGEOM_ELLIPSOID:
+            geom.contype = 0
+            geom.conaffinity = 0
+            continue
+        if geom.name == "floor" and geom.type == mujoco.mjtGeom.mjGEOM_PLANE:
+            geom.contype = 0
+            geom.conaffinity = 0
+            continue
+        if (
+            geom.name == ""
+            and geom.type == mujoco.mjtGeom.mjGEOM_CYLINDER
+            and geom.group == 4
+        ):
             geom.contype = 0
             geom.conaffinity = 0
 
