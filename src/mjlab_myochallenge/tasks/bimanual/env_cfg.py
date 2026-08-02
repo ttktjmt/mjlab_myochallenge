@@ -24,7 +24,7 @@ Observations (per policy):
 
 from copy import deepcopy
 
-from mjlab.envs import mdp, ManagerBasedRlEnvCfg
+from mjlab.envs import ManagerBasedRlEnvCfg, mdp
 from mjlab.managers.action_manager import ActionTermCfg
 from mjlab.managers.event_manager import EventTermCfg
 from mjlab.managers.observation_manager import ObservationGroupCfg, ObservationTermCfg
@@ -34,15 +34,15 @@ from mjlab.scene import SceneCfg
 from mjlab.terrains import TerrainEntityCfg
 from mjlab.utils.noise import UniformNoiseCfg as Unoise
 
+from mjlab_myochallenge.mdp.bimanual import events as bevt
 from mjlab_myochallenge.mdp.bimanual import observations as bobs
 from mjlab_myochallenge.mdp.bimanual import rewards as brwd
 from mjlab_myochallenge.mdp.bimanual import terminations as bterm
-from mjlab_myochallenge.mdp.bimanual import events as bevt
 from mjlab_myochallenge.mdp.bimanual.actions import MplJointPositionActionCfg
 from mjlab_myochallenge.models.bimanual import (
-    DEFAULT_BIMANUAL_CFG,
-    BIMANUAL_VIEWER_CONFIG,
     BIMANUAL_SIM_CFG,
+    BIMANUAL_VIEWER_CONFIG,
+    DEFAULT_BIMANUAL_CFG,
 )
 
 
@@ -135,19 +135,19 @@ def bimanual_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     rewards_cfg = {
         "reach": RewardTermCfg(
             func=brwd.reach_reward,
-            weight=0.1,
+            weight=0.3,
         ),
         "pass": RewardTermCfg(
             func=brwd.pass_reward,
-            weight=1.0,
+            weight=1.2,
         ),
         "goal": RewardTermCfg(
             func=brwd.goal_reward,
-            weight=5.0,
+            weight=3.5,
         ),
         "action_reg": RewardTermCfg(
             func=brwd.action_regularization,
-            weight=0.001,
+            weight=0.002,
         ),
     }
 
@@ -162,7 +162,12 @@ def bimanual_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
         "object_dropped": TerminationTermCfg(
             func=bterm.object_dropped,
             time_out=False,
-            params={"drop_z_th": 0.3},
+            params={"drop_z_th": 0.22},
+        ),
+        "goal_held": TerminationTermCfg(
+            func=bterm.goal_held,
+            time_out=False,
+            params={"goal_dist_th_m": 0.12, "hold_steps": 25},
         ),
     }
 
@@ -184,7 +189,7 @@ def bimanual_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
         rewards=rewards_cfg,
         terminations=terminations_cfg,
         decimation=5,  # 100 Hz control (500 Hz sim / 5)
-        episode_length_s=30.0 if play else 10.0,
+        episode_length_s=30.0 if play else 12.0,
     )
 
     return cfg

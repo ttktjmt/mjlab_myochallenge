@@ -8,7 +8,7 @@ returns a fully composed `ManagerBasedRlEnvCfg`.  MDP logic lives in
 
 from copy import deepcopy
 
-from mjlab.envs import mdp, ManagerBasedRlEnvCfg
+from mjlab.envs import ManagerBasedRlEnvCfg, mdp
 from mjlab.managers.action_manager import ActionTermCfg
 from mjlab.managers.event_manager import EventTermCfg
 from mjlab.managers.observation_manager import ObservationGroupCfg, ObservationTermCfg
@@ -18,8 +18,17 @@ from mjlab.scene import SceneCfg
 from mjlab.terrains import TerrainEntityCfg
 from mjlab.utils.noise import UniformNoiseCfg as Unoise
 
-from mjlab_myochallenge.mdp.die_reorient import observations, rewards, terminations, events
-from mjlab_myochallenge.models.myohand import DEFAULT_MYOHAND_CFG, VIEWER_CONFIG, SIM_CFG
+from mjlab_myochallenge.mdp.die_reorient import (
+    events,
+    observations,
+    rewards,
+    terminations,
+)
+from mjlab_myochallenge.models.myohand import (
+    DEFAULT_MYOHAND_CFG,
+    SIM_CFG,
+    VIEWER_CONFIG,
+)
 
 
 def die_reorient_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
@@ -96,16 +105,16 @@ def die_reorient_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     rewards_cfg = {
         "orientation": RewardTermCfg(
             func=rewards.orientation_reward,
-            weight=10.0,
+            weight=8.0,
         ),
         "position": RewardTermCfg(
             func=rewards.position_reward,
-            weight=1.0,
-            params={"std": 0.05},
+            weight=2.0,
+            params={"std": 0.06},
         ),
         "action_reg": RewardTermCfg(
             func=rewards.action_regularization,
-            weight=0.001,
+            weight=0.002,
         ),
     }
 
@@ -120,7 +129,16 @@ def die_reorient_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
         "die_dropped": TerminationTermCfg(
             func=terminations.die_dropped,
             time_out=False,
-            params={"drop_th": 0.1},
+            params={"drop_th": 0.14},
+        ),
+        "goal_held": TerminationTermCfg(
+            func=terminations.goal_held,
+            time_out=False,
+            params={
+                "orientation_th_rad": 0.35,
+                "position_th_m": 0.04,
+                "hold_steps": 25,
+            },
         ),
     }
 
@@ -142,7 +160,7 @@ def die_reorient_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
         rewards=rewards_cfg,
         terminations=terminations_cfg,
         decimation=5,  # 100 Hz control (500 Hz sim / 5)
-        episode_length_s=20.0 if play else 6.0,
+        episode_length_s=20.0 if play else 8.0,
     )
 
     return cfg
