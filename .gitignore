@@ -16,3 +16,5 @@ artifacts/
 render_robots.py
 .ruff_cache/
 .claude
+.cache/
+.mplconfig/

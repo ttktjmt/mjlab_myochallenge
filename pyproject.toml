@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "MyoChallenge environments and tasks in mjlab framework"
 requires-python = ">=3.10,<3.14"
 dependencies = [
-    "mjlab @ git+https://github.com/mujocolab/mjlab.git",
+    "mjlab",
     "myosuite",
     "numpy",
     "torch",
@@ -32,6 +32,11 @@ indent-width = 4
 myosuite = { git = "https://github.com/MyoHub/myosuite.git", branch = "mjx" }
 
 [tool.uv]
+# Only here to defeat myosuite's stale `mujoco>=3.5,<3.6`, which nothing else can
+# satisfy alongside mjlab. Mirrors mjlab's own range rather than picking one: an
+# override replaces every constraint on the package, mjlab's included, so leaving
+# the bounds off lets uv pick a mujoco mjlab rejects (3.6.0 and 3.11 both happened).
 override-dependencies = [
-    "mujoco>=3.6.0",
+    "mujoco~=3.10.0",
 ]
+
