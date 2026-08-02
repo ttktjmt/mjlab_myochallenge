@@ -8,7 +8,6 @@ Reward design mirrors the original BimanualEnvV1:
 """
 
 import torch
-
 from mjlab.envs import ManagerBasedRlEnv
 
 from .utils import get_bimanual_model_ids, get_goal_pos, get_object_pos
@@ -29,8 +28,7 @@ def _rpalm_pos(env: ManagerBasedRlEnv) -> torch.Tensor:
     sid1, sid2 = ids["rpalm1_sid"], ids["rpalm2_sid"]
     if sid1 >= 0 and sid2 >= 0:
         return 0.5 * (
-            env.sim.data.site_xpos[:, sid1, :]
-            + env.sim.data.site_xpos[:, sid2, :]
+            env.sim.data.site_xpos[:, sid1, :] + env.sim.data.site_xpos[:, sid2, :]
         )
     return get_object_pos(env)  # fallback
 

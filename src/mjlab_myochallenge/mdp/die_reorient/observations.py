@@ -1,10 +1,15 @@
 """Observation terms for MyoChallenge tasks."""
 
 import torch
-
 from mjlab.envs import ManagerBasedRlEnv
 
-from .utils import get_die_position, get_die_quat, get_goal_quat, get_model_ids, quat_to_euler
+from .utils import (
+    get_die_position,
+    get_die_quat,
+    get_goal_quat,
+    get_model_ids,
+    quat_to_euler,
+)
 
 
 def hand_qpos(env: ManagerBasedRlEnv) -> torch.Tensor:

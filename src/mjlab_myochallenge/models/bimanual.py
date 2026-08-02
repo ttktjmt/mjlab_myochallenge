@@ -12,16 +12,15 @@ Model summary:
 """
 
 from pathlib import Path
-import mujoco
 
-from mjlab.entity import EntityCfg, EntityArticulationInfoCfg
-from mjlab.sim import MujocoCfg, SimulationCfg
-from mjlab.viewer import ViewerConfig
+import gymnasium
+import mujoco
+import myosuite  # noqa: F401 — triggers gym env registration
 from mjlab.actuator import XmlActuatorCfg
 from mjlab.actuator.actuator import TransmissionType
-
-import myosuite  # noqa: F401 — triggers gym env registration
-import gymnasium
+from mjlab.entity import EntityArticulationInfoCfg, EntityCfg
+from mjlab.sim import MujocoCfg, SimulationCfg
+from mjlab.viewer import ViewerConfig
 
 BIMANUAL_XML = Path(
     gymnasium.spec("myoChallengeBimanual-v0").kwargs["model_path"]

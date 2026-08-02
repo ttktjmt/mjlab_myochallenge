@@ -10,7 +10,7 @@ Usage:
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Literal
 
 import torch
 import tyro
@@ -126,8 +126,8 @@ def run_record(task: str, cfg: RecordConfig):
             motion_cmd.sampling_mode = "uniform"
             print("[INFO]: Using random goal sampling (uniform mode)")
 
-    log_dir: Optional[Path] = None
-    resume_path: Optional[Path] = None
+    log_dir: Path | None = None
+    resume_path: Path | None = None
     if TRAINED_MODE:
         log_root_path = (Path("logs") / "rsl_rl" / agent_cfg.experiment_name).resolve()
         if cfg.checkpoint_file is not None:
@@ -160,7 +160,6 @@ def run_record(task: str, cfg: RecordConfig):
     if is_myosuite:
         # For MyoSuite, we use the environment directly without wrapper
         env.clip_actions = agent_cfg.clip_actions
-        pass
     else:
         env = RslRlVecEnvWrapper(env, clip_actions=agent_cfg.clip_actions)
 

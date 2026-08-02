@@ -8,7 +8,6 @@ Reset logic mirrors BimanualEnvV1.reset():
 """
 
 import torch
-
 from mjlab.envs import ManagerBasedRlEnv
 from mjlab.utils.lab_api.math import sample_uniform
 
@@ -80,7 +79,9 @@ def reset_bimanual(
 
     # freejoint qpos: [x, y, z, qw, qx, qy, qz]
     # Use same orientation as keyframe (identity-ish: last 4 values)
-    obj_quat = torch.tensor(key_qpos[key_idx, obj_adr + 3 : obj_adr + 7], device=dev, dtype=torch.float32)
+    obj_quat = torch.tensor(
+        key_qpos[key_idx, obj_adr + 3 : obj_adr + 7], device=dev, dtype=torch.float32
+    )
     env.sim.data.qpos[env_ids, obj_adr : obj_adr + 3] = obj_start
     env.sim.data.qpos[env_ids, obj_adr + 3 : obj_adr + 7] = obj_quat.unsqueeze(0)
 

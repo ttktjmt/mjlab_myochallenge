@@ -1,7 +1,6 @@
 """Observation terms for the MyoChallenge 2024 Bimanual Manipulation task."""
 
 import torch
-
 from mjlab.envs import ManagerBasedRlEnv
 
 from .utils import (
@@ -28,13 +27,13 @@ def myoarm_qvel(env: ManagerBasedRlEnv) -> torch.Tensor:
 def mpl_qpos(env: ManagerBasedRlEnv) -> torch.Tensor:
     """Prosthesis (MPL) joint positions."""
     ids = get_bimanual_model_ids(env)
-    return env.sim.data.qpos[:, ids["prosth_qpos_start"]:ids["prosth_qpos_end"]]
+    return env.sim.data.qpos[:, ids["prosth_qpos_start"] : ids["prosth_qpos_end"]]
 
 
 def mpl_qvel(env: ManagerBasedRlEnv) -> torch.Tensor:
     """Prosthesis (MPL) joint velocities."""
     ids = get_bimanual_model_ids(env)
-    return env.sim.data.qvel[:, ids["prosth_qpos_start"]:ids["prosth_qpos_end"]]
+    return env.sim.data.qvel[:, ids["prosth_qpos_start"] : ids["prosth_qpos_end"]]
 
 
 def object_pos(env: ManagerBasedRlEnv) -> torch.Tensor:

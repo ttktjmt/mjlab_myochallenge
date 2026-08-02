@@ -1,7 +1,6 @@
 """Reward terms for MyoChallenge tasks."""
 
 import torch
-
 from mjlab.envs import ManagerBasedRlEnv
 
 from .utils import get_die_quat, get_die_slide_qpos, get_goal_quat, quat_distance

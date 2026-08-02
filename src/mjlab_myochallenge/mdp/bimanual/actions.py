@@ -12,7 +12,6 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import torch
-
 from mjlab.managers.action_manager import ActionTerm, ActionTermCfg
 
 if TYPE_CHECKING:
@@ -56,8 +55,12 @@ class MplJointPositionAction(ActionTerm):
         # Store ctrl ranges for [-1, 1] → [lo, hi] mapping
         ctrl_ids_np = self._ctrl_ids.cpu().numpy()
         ctrl_range = env.sim.mj_model.actuator_ctrlrange[ctrl_ids_np]
-        self._ctrl_lo = torch.tensor(ctrl_range[:, 0], device=env.device, dtype=torch.float32)
-        self._ctrl_hi = torch.tensor(ctrl_range[:, 1], device=env.device, dtype=torch.float32)
+        self._ctrl_lo = torch.tensor(
+            ctrl_range[:, 0], device=env.device, dtype=torch.float32
+        )
+        self._ctrl_hi = torch.tensor(
+            ctrl_range[:, 1], device=env.device, dtype=torch.float32
+        )
         self._ctrl_mid = 0.5 * (self._ctrl_lo + self._ctrl_hi)
         self._ctrl_half = 0.5 * (self._ctrl_hi - self._ctrl_lo)
 
